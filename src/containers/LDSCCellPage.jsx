@@ -64,71 +64,82 @@ function LDSCCellPage(){
 
 
   
-  if("Name" in cohortData && Object.keys(cohortData).length>0 && Object.keys(cohortData["Name"]).length>0) {
+  // if("Name" in cohortData && Object.keys(cohortData).length>0 && Object.keys(cohortData["Name"]).length>0) {
     
-    // x_val=cohortData.map(d => d.Name);
-    // y_val=cohortData.map(d => d['-LOG10P']);
-    // const colors = Plotly.d3.scale.category10().range();
+  //   // x_val=cohortData.map(d => d.Name);
+  //   // y_val=cohortData.map(d => d['-LOG10P']);
+  //   // const colors = Plotly.d3.scale.category10().range();
 
-    var darkMode=false;
+  //   var darkMode=false;
 
+  //   {console.log(cohortData)}
 
-    var tempel=cohortName.split('/').at(-1).split('_').at(0)
-    var colorsEl=cohortData["Name"];
-    var colorTitle="Name";
+  //   // var tempel=cohortName.split('/').at(-1).split('_').at(0)
+  //   // var colorsEl=cohortData["Name"];
+  //   // var colorTitle="Name";
 
-    const all_cell_type=["gene","chromatin"]
+  //   // const all_cell_type=["gene","chromatin"]
 
-    {console.log(cohortData)}
-    if (all_cell_type.includes(tempel)){
-        colorsEl=cohortData["Tissue"];
-        colorTitle="Tissue";
-    }
-    else if (tempel=="immgen"){
-      colorsEl=cohortData["celltype1"];
-      colorTitle="CellType1";
-    }
+  //   // if (all_cell_type.includes(tempel)){
+  //   //     colorsEl=cohortData["Tissue"];
+  //   //     colorTitle="Tissue";
+  //   // }
+  //   // else if (tempel=="immgen"){
+  //   //   colorsEl=cohortData["celltype1"];
+  //   //   colorTitle="CellType1";
+  //   // }
 
-    data_val = [{
-      x: cohortData.Name,
-      y: cohortData["-LOG10P"],
-      type: 'scatter',
-      mode: 'markers',
-      marker: {
-        color: colorsEl?.map((t, i) => i),
-        colorscale: 'Viridis',
-        colorbar: {
-          title: colorTitle,
-          tickvals: [...Array(cohortData.length).keys()],
-          ticktext: cohortData.Tissue,
-        },
-        discrete: true,
-      },
-      customdata1: cohortData["Coefficient"],//["Coefficient_std_error"],
-      customdata2: cohortData["Coefficient_std_error"],
-      tissueData: colorsEl,
-      hovertemplate: '<b>Chromatin Cell Type</b>: %{x}<br> <b>-LOG10P</b>: %{y}<br> <b>%{colorTitle}</b>: %{{tissueData}}<br> <b>Coefficient</b>: %{customdata1}<br> <b>Std. Error</b>: %{customdata2}'
-    }];
+  //   // data_val = [{
+  //   //   x: cohortData.Name,
+  //   //   y: cohortData["-LOG10P"],
+  //   //   type: 'scatter',
+  //   //   mode: 'markers',
+  //   //   marker: {
+  //   //     // color: colorsEl?.map((t, i) => i),
+  //   //     // colorscale: 'Viridis',
+  //   //     // colorbar: {
+  //   //       // title: colorTitle,
+  //   //       // tickvals: [...Array(cohortData.length).keys()],
+  //   //       // ticktext: cohortData.Tissue,
+  //   //     // },
+  //   //     discrete: true,
+  //   //   },
+  //   //   customdata1: cohortData["Coefficient"],//["Coefficient_std_error"],
+  //   //   customdata2: cohortData["Coefficient_std_error"],
+  //   //   tissueData: colorsEl,
+  //   //   hovertemplate: '<b>Chromatin Cell Type</b>: %{x}<br> <b>-LOG10P</b>: %{y}<br> <b>%{colorTitle}</b>: %{{tissueData}}<br> <b>Coefficient</b>: %{customdata1}<br> <b>Std. Error</b>: %{customdata2}'
+  //   // }];
   
-    layout_val={ 
-      title: tempel.toUpperCase() + ' Analysis', 
-      xaxis: { showticklabels: false }, 
+  //   // layout_val={ 
+  //   //   title: tempel.toUpperCase() + ' Analysis', 
+  //   //   // xaxis: { showticklabels: false }, 
 
-      plot_bgcolor: darkMode ? "rgb(38, 50, 56)" : "white",
-      paper_bgcolor: darkMode ? "rgb(38, 50, 56)" : "white",
-      font: {
-          color: darkMode ? "white" : "black",
-        },
+  //   //   plot_bgcolor: darkMode ? "rgb(38, 50, 56)" : "white",
+  //   //   paper_bgcolor: darkMode ? "rgb(38, 50, 56)" : "white",
+  //   //   font: {
+  //   //       color: darkMode ? "white" : "black",
+  //   //     },
 
-      //template: 'plotly_dark', 
-      yaxis: { title: '-LOG10P' } };
+  //   //   //template: 'plotly_dark', 
+  //   //   yaxis: { title: '-LOG10P' } };
+
+  // }
 
 
 
-  }
 
-  
-    // console.log(cohortData)
+
+
+
+
+    if (cohortData.length>0){
+      var all_coh_data=JSON.parse(cohortData)
+      data_val=all_coh_data.data
+      layout_val=all_coh_data.layout
+
+      console.log(all_coh_data)
+    }
+    
     // if ("Name" in cohortData){
     // console.log(Object.keys(cohortData).length)
     // }
@@ -149,7 +160,7 @@ function LDSCCellPage(){
         cohortnameSetter={wrapperSetCohortName}
       />
 
-      {("Name" in cohortData && Object.keys(cohortData).length>0 )? (
+{(cohortData.length>0 )? (
         <Box
           component="main"
           sx={{ flexGrow: 1, p: 3, marginLeft: 10, marginRight: 15 }}
@@ -207,10 +218,12 @@ function LDSCCellPage(){
         >
           {/* <img src={emptyStateImg} /> */}
           <Typography component="div" variant="h6">
-            Please Select a Cohort to Begin
+            Please Select a Cohort to Begin 1231233132
           </Typography>
         </Box>
       )}
+
+      
     </Box>
 
 
